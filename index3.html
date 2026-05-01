@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fantasy Island – Escola de LoL</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'fi-dark': '#070711',
+                        'fi-card': '#12121f',
+                        'fi-gold': '#f0b232',
+                        'fi-purple': '#8b5cf6',
+                        'fi-blue': '#3b82f6',
+                        'fi-discord': '#5865F2'
+                    },
+                    fontFamily: {
+                        'heading': ['Orbitron', 'sans-serif'],
+                        'body': ['Exo 2', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html,
+        body {
+            scroll-behavior: smooth;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100%;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(28px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        @keyframes pulseRing {
+            0% {
+                transform: scale(.92);
+                opacity: .75;
+            }
+
+            70%,
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        @keyframes borderGlow {
+
+            0%,
+            100% {
+                border-color: rgba(240, 178, 50, .25);
+                box-shadow: 0 0 18px rgba(240, 178, 50, .12);
+            }
+
+            50% {
+                border-color: rgba(139, 92, 246, .55);
+                box-shadow: 0 0 32px rgba(139, 92, 246, .22);
+            }
+        }
+
+        .fade-up {
+            animation: fadeUp .8s ease forwards;
+            opacity: 0;
+        }
+
+        .fade-up-d1 {
+            animation-delay: .10s;
+        }
+
+        .fade-up-d2 {
+            animation-delay: .20s;
+        }
+
+        .fade-up-d3 {
+            animation-delay: .30s;
+        }
+
+        .fade-up-d4 {
+            animation-delay: .40s;
+        }
+
+        .float-card {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .animated-border {
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+
+        .shimmer-text {
+            background: linear-gradient(90deg, #f0b232 0%, #ffe08a 45%, #8b5cf6 70%, #f0b232 100%);
+            background-size: 220% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite;
+        }
+
+        .glass {
+            background: rgba(18, 18, 31, .72);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .card-hover {
+            transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-6px);
+            border-color: rgba(240, 178, 50, .45);
+            box-shadow: 0 18px 50px rgba(0, 0, 0, .35), 0 0 28px rgba(139, 92, 246, .18);
+        }
+
+        .btn-main {
+            transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+            box-shadow: 0 0 28px rgba(240, 178, 50, .25);
+        }
+
+        .btn-main:hover {
+            transform: translateY(-2px) scale(1.02);
+            filter: brightness(1.08);
+            box-shadow: 0 0 40px rgba(240, 178, 50, .42);
+        }
+
+        .btn-icon {
+            transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+
+        .btn-icon:hover {
+            transform: translateY(-2px) scale(1.08);
+            box-shadow: 0 0 28px rgba(88, 101, 242, .45);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 2px;
+            border-radius: 999px;
+            background: #f0b232;
+            transition: width .2s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body class="h-full bg-fi-dark text-white font-body overflow-auto">
+    <header class="fixed top-0 left-0 right-0 z-50 px-4 py-3">
+        <nav class="glass max-w-6xl mx-auto rounded-2xl px-4 md:px-6 py-3 flex items-center justify-between">
+            <a href="#inicio" class="flex items-center gap-3">
+                <span
+                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-fi-gold to-fi-purple flex items-center justify-center font-heading font-black text-fi-dark">FI</span>
+                <span class="font-heading font-bold hidden sm:block">Fantasy Island</span>
+            </a>
+            <div class="hidden md:flex items-center gap-7 text-sm text-gray-300">
+                <a class="nav-link hover:text-white" href="#coach">Coach</a>
+                <a class="nav-link hover:text-white" href="#metodo">Método</a>
+                <a class="nav-link hover:text-white" href="#beneficios">Benefícios</a>
+                <a class="nav-link hover:text-white" href="#contato">Contato</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="https://discord.gg/seudiscord" target="_blank" rel="noopener noreferrer"
+                    aria-label="Entrar no Discord" title="Discord"
+                    class="btn-icon w-11 h-11 rounded-xl bg-fi-discord/15 border border-fi-discord/40 flex items-center justify-center text-fi-discord hover:bg-fi-discord hover:text-white">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path
+                            d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3c-.164.29-.353.682-.484.99a18.27 18.27 0 0 0-8.148 0A10.15 10.15 0 0 0 7.442 3a19.736 19.736 0 0 0-3.76 1.37C1.303 7.91.662 11.36.984 14.76a19.9 19.9 0 0 0 6.142 3.113c.494-.67.934-1.38 1.313-2.123-.721-.271-1.412-.604-2.064-.99.173-.127.342-.26.505-.397 3.984 1.845 8.306 1.845 12.243 0 .166.137.335.27.505.397-.653.386-1.345.72-2.066.99.379.743.82 1.453 1.314 2.123a19.86 19.86 0 0 0 6.142-3.113c.378-3.944-.647-7.363-3.701-10.391ZM8.682 12.705c-1.198 0-2.18-1.1-2.18-2.45 0-1.35.963-2.45 2.18-2.45 1.225 0 2.2 1.11 2.18 2.45 0 1.35-.963 2.45-2.18 2.45Zm6.636 0c-1.198 0-2.18-1.1-2.18-2.45 0-1.35.963-2.45 2.18-2.45 1.225 0 2.2 1.11 2.18 2.45 0 1.35-.955 2.45-2.18 2.45Z" />
+                    </svg>
+                </a>
+                <a href="#contato"
+                    class="hidden sm:inline-flex items-center gap-2 bg-fi-gold text-fi-dark font-bold px-4 py-2.5 rounded-xl hover:bg-yellow-300 transition-colors">Começar</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="inicio">
+        <section class="relative min-h-screen flex items-center justify-center px-4 pt-32 pb-20 overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,#1d1740_0%,#070711_45%,#05050c_100%)]"></div>
+            <div
+                class="absolute top-16 left-1/2 -translate-x-1/2 w-[780px] h-[780px] bg-fi-purple/15 rounded-full blur-[130px]">
+            </div>
+            <div class="absolute bottom-0 right-0 w-[520px] h-[520px] bg-fi-gold/10 rounded-full blur-[120px]"></div>
+            <div class="absolute inset-0 opacity-[.08]"
+                style="background-image: linear-gradient(rgba(255,255,255,.14) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.14) 1px, transparent 1px); background-size: 42px 42px;">
+            </div>
+
+            <div class="relative z-10 max-w-6xl mx-auto grid lg:grid-cols-[1.08fr_.92fr] gap-12 items-center">
+                <div class="text-center lg:text-left">
+                    <div class="fade-up mb-6">
+                        <span
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-fi-gold/30 bg-fi-gold/10 text-fi-gold text-sm font-semibold tracking-wider uppercase">
+                            <span class="relative flex h-2.5 w-2.5"><span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-fi-gold opacity-75"></span><span
+                                    class="relative inline-flex rounded-full h-2.5 w-2.5 bg-fi-gold"></span></span>
+                            Escola de League of Legends
+                        </span>
+                    </div>
+                    <h1 id="hero-title"
+                        class="fade-up fade-up-d1 font-heading text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-6">
+                        <span class="shimmer-text">Fantasy Island</span>
+                        <span class="text-white text-2xl md:text-4xl lg:text-5xl font-bold mt-4 block">Aprenda LoL com
+                            Autonomia e Estratégia</span>
+                    </h1>
+                    <p id="hero-subtitle"
+                        class="fade-up fade-up-d2 text-gray-300 text-lg md:text-xl max-w-2xl mx-auto lg:mx-0 mb-8 leading-relaxed">
+                        Desenvolva seu próprio estilo de jogo, se adapte a qualquer elo e suba de rank com método
+                        testado por 6 anos de experiência no cenário competitivo.</p>
+                    <div class="fade-up fade-up-d3 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="https://wa.me/+5571991522759?text=Olá, quero saber mais sobre o curso de LoL."
+    target="_blank" rel="noopener noreferrer"
+    class="glow-btn inline-flex items-center justify-center gap-2 bg-fi-gold text-fi-dark font-bold px-8 py-4 rounded-lg text-lg hover:bg-yellow-400 transition-colors">
+    <i data-lucide="zap" class="w-5 h-5"></i> Começar agora
+</a>
+                        <a href="#metodo"
+                            class="inline-flex items-center justify-center gap-2 glass text-white font-bold px-8 py-4 rounded-2xl text-lg hover:border-fi-purple/60 transition-colors">
+                            <i data-lucide="play-circle" class="w-5 h-5 text-fi-purple"></i> Ver método
+                        </a>
+                    </div>
+                    <div
+                        class="fade-up fade-up-d4 mt-10 flex flex-wrap justify-center lg:justify-start gap-4 text-sm text-gray-300">
+                        <span class="glass rounded-xl px-4 py-3 flex items-center gap-2"><i data-lucide="users"
+                                class="w-4 h-4 text-fi-gold"></i> +346 membros</span>
+                        <span class="glass rounded-xl px-4 py-3 flex items-center gap-2"><i data-lucide="clock-3"
+                                class="w-4 h-4 text-fi-gold"></i> 5.040 horas de coach</span>
+                        <span class="glass rounded-xl px-4 py-3 flex items-center gap-2"><i data-lucide="trending-up"
+                                class="w-4 h-4 text-fi-gold"></i> 119 evoluções acima do esperado</span>
+                    </div>
+                </div>
+
+                <div class="fade-up fade-up-d2 relative hidden lg:block">
+                    <div
+                        class="absolute -inset-8 bg-gradient-to-br from-fi-purple/30 to-fi-gold/20 blur-3xl rounded-full">
+                    </div>
+                    <div class="float-card animated-border relative glass rounded-[2rem] p-7 overflow-hidden">
+                        <div class="absolute top-6 right-6 w-24 h-24 bg-fi-gold/10 rounded-full blur-2xl"></div>
+                        <div class="flex items-center justify-between mb-8">
+                            <div>
+                                <p class="text-gray-400 text-sm">Plano de evolução</p>
+                                <h3 class="font-heading text-2xl font-bold text-fi-gold">Rank Up</h3>
+                            </div>
+                            <div class="w-14 h-14 rounded-2xl bg-fi-purple/20 flex items-center justify-center"><i
+                                    data-lucide="gamepad-2" class="w-7 h-7 text-fi-purple"></i></div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-white/5 rounded-2xl p-4 border border-white/5">
+                                <div class="flex justify-between text-sm mb-2"><span>Lane Phase</span><span
+                                        class="text-fi-gold">92%</span></div>
+                                <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full w-[92%] bg-fi-gold rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white/5 rounded-2xl p-4 border border-white/5">
+                                <div class="flex justify-between text-sm mb-2"><span>Rotação</span><span
+                                        class="text-fi-purple">78%</span></div>
+                                <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full w-[78%] bg-fi-purple rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white/5 rounded-2xl p-4 border border-white/5">
+                                <div class="flex justify-between text-sm mb-2"><span>Decisão sob pressão</span><span
+                                        class="text-fi-blue">84%</span></div>
+                                <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full w-[84%] bg-fi-blue rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 grid grid-cols-3 gap-3 text-center">
+                            <div class="bg-black/20 rounded-2xl p-4"><strong
+                                    class="block text-fi-gold text-xl">5.040h</strong><span
+                                    class="text-xs text-gray-400">de coach</span></div>
+                            <div class="bg-black/20 rounded-2xl p-4"><strong
+                                    class="block text-fi-purple text-xl">160</strong><span
+                                    class="text-xs text-gray-400">alunos</span></div>
+                            <div class="bg-black/20 rounded-2xl p-4"><strong
+                                    class="block text-fi-blue text-xl">119</strong><span
+                                    class="text-xs text-gray-400">acima do esperado</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="coach" class="px-4 py-20 relative">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="font-heading text-2xl md:text-4xl font-bold text-white mb-3">Quem é <span
+                            class="text-fi-gold">Fantasy</span>?</h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-fi-purple to-fi-gold mx-auto rounded-full"></div>
+                </div>
+                <div class="glass card-hover rounded-3xl p-8 md:p-12">
+                    <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <div
+                            class="relative w-36 h-36 md:w-44 md:h-44 rounded-full bg-gradient-to-br from-fi-purple to-fi-gold p-1 flex-shrink-0">
+                            <span class="absolute inset-0 rounded-full border border-fi-gold/40"
+                                style="animation:pulseRing 2s infinite"></span>
+                            <div class="w-full h-full rounded-full bg-fi-dark flex items-center justify-center"><span
+                                    class="font-heading text-5xl text-fi-gold">FI</span></div>
+                        </div>
+                        <div class="flex-1 text-center md:text-left">
+                            <h3 class="font-heading text-2xl font-bold text-fi-gold mb-3">Coach Fantasy</h3>
+                            <p class="text-gray-300 leading-relaxed mb-5">Coach profissional de League of Legends com <strong class="text-white">5.040 horas de experiência</strong> em treinamento. Trabalhou com jogadores que hoje estão na <strong
+                                    class="text-white">Furia</strong> e <strong class="text-white">Academy</strong>.
+                                Seu método já acompanhou <strong class="text-white">160 alunos</strong>, com foco em autonomia, leitura de jogo e evolução estratégica.</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                                <div class="flex items-center gap-2 text-gray-300"><i data-lucide="award"
+                                        class="w-4 h-4 text-fi-gold"></i> Campeonato Baiano</div>
+                                <div class="flex items-center gap-2 text-gray-300"><i data-lucide="award"
+                                        class="w-4 h-4 text-fi-gold"></i> Nordestão</div>
+                                <div class="flex items-center gap-2 text-gray-300"><i data-lucide="award"
+                                        class="w-4 h-4 text-fi-gold"></i> Liga GG Série A (2023)</div>
+                                <div class="flex items-center gap-2 text-gray-300"><i data-lucide="globe"
+                                        class="w-4 h-4 text-fi-purple"></i> Newstar (Chile)</div>
+                            </div>
+                            <p class="text-gray-500 text-sm mt-5">Equipes: Zeta, Triunfo, Grow Gamer, Golden Vulpes,
+                                Time do Bahia, Newstar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="metodo" class="px-4 py-20 bg-[#0d0d1a]">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="font-heading text-2xl md:text-4xl font-bold text-white mb-3">Para quem é?</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-fi-gold to-fi-purple mx-auto rounded-full mb-12"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card-hover glass rounded-2xl p-7">
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-fi-purple/20 flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="target" class="w-7 h-7 text-fi-purple"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">Qualquer elo</h3>
+                        <p class="text-gray-400 text-sm">Do Ferro ao Diamante, com método adaptado ao seu nível.</p>
+                    </div>
+                    <div class="card-hover glass rounded-2xl p-7">
+                        <div class="w-14 h-14 rounded-2xl bg-fi-gold/20 flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="flame" class="w-7 h-7 text-fi-gold"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">Evolução real</h3>
+                        <p class="text-gray-400 text-sm">Ideal para quem quer rotina, disciplina e leitura de jogo.</p>
+                    </div>
+                    <div class="card-hover glass rounded-2xl p-7">
+                        <div class="w-14 h-14 rounded-2xl bg-fi-blue/20 flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="rocket" class="w-7 h-7 text-fi-blue"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">Carreira no cenário</h3>
+                        <p class="text-gray-400 text-sm">Para futuros jogadores, streamers e coaches.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="beneficios" class="px-4 py-20">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="font-heading text-2xl md:text-4xl font-bold text-white mb-3">O que você vai <span
+                            class="text-fi-gold">aprender</span></h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-fi-purple to-fi-gold mx-auto rounded-full"></div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div class="card-hover glass rounded-2xl p-5 flex items-start gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-fi-gold/10 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="calendar" class="w-5 h-5 text-fi-gold"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-1">Rotina de treinos</h4>
+                            <p class="text-gray-400 text-sm">Crie uma rotina eficiente e sustentável.</p>
+                        </div>
+                    </div>
+                    <div class="card-hover glass rounded-2xl p-5 flex items-start gap-4">
+                        <div
+                            class="w-11 h-11 rounded-xl bg-fi-purple/10 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="swords" class="w-5 h-5 text-fi-purple"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-1">Lane Phase</h4>
+                            <p class="text-gray-400 text-sm">Domine a fase de rota com consistência.</p>
+                        </div>
+                    </div>
+                    <div class="card-hover glass rounded-2xl p-5 flex items-start gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-fi-blue/10 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="map" class="w-5 h-5 text-fi-blue"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-1">Rotação e decisão</h4>
+                            <p class="text-gray-400 text-sm">Saiba quando rotar e como decidir sob pressão.</p>
+                        </div>
+                    </div>
+                    <div class="card-hover glass rounded-2xl p-5 flex items-start gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-fi-gold/10 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="wrench" class="w-5 h-5 text-fi-gold"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-1">Itemização adaptativa</h4>
+                            <p class="text-gray-400 text-sm">Aprenda a buildar de forma inteligente.</p>
+                        </div>
+                    </div>
+                    <div class="card-hover glass rounded-2xl p-5 flex items-start gap-4">
+                        <div
+                            class="w-11 h-11 rounded-xl bg-fi-purple/10 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="monitor" class="w-5 h-5 text-fi-purple"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-1">Câmera e configs</h4>
+                            <p class="text-gray-400 text-sm">Configurações profissionais de câmera e controle.</p>
+                        </div>
+                    </div>
+                    <div class="card-hover glass rounded-2xl p-5 flex items-start gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-fi-blue/10 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="brain" class="w-5 h-5 text-fi-blue"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-1">Memória muscular</h4>
+                            <p class="text-gray-400 text-sm">Desenvolva reflexos e adaptação ao jogo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="px-4 py-20 bg-[#0d0d1a]">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="font-heading text-2xl md:text-4xl font-bold text-white mb-3">Diferenciais</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-fi-gold to-fi-purple mx-auto rounded-full mb-12"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="card-hover glass flex items-start gap-4 text-left rounded-2xl p-6"><i
+                            data-lucide="check-circle" class="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5"></i>
+                        <div>
+                            <h4 class="font-semibold mb-1">Método prático</h4>
+                            <p class="text-gray-400 text-sm">Exemplos visuais e reais do cenário competitivo.</p>
+                        </div>
+                    </div>
+                    <div class="card-hover glass flex items-start gap-4 text-left rounded-2xl p-6"><i
+                            data-lucide="check-circle" class="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5"></i>
+                        <div>
+                            <h4 class="font-semibold mb-1">Autonomia total</h4>
+                            <p class="text-gray-400 text-sm">Você aprende a pensar, não só a repetir.</p>
+                        </div>
+                    </div>
+                    <div class="card-hover glass flex items-start gap-4 text-left rounded-2xl p-6"><i
+                            data-lucide="check-circle" class="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5"></i>
+                        <div>
+                            <h4 class="font-semibold mb-1">Suporte direto</h4>
+                            <p class="text-gray-400 text-sm">Acesso ao treinador ao final de cada módulo.</p>
+                        </div>
+                    </div>
+                    <div class="card-hover glass flex items-start gap-4 text-left rounded-2xl p-6"><i
+                            data-lucide="check-circle" class="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5"></i>
+                        <div>
+                            <h4 class="font-semibold mb-1">Conteúdo testado</h4>
+                            <p class="text-gray-400 text-sm">Estrutura validada para evolução progressiva.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="px-4 py-20">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="font-heading text-2xl md:text-4xl font-bold text-white mb-3">Prova <span
+                        class="text-fi-gold">Social</span></h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-fi-purple to-fi-gold mx-auto rounded-full mb-12"></div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="card-hover glass rounded-2xl p-5">
+                        <div class="text-3xl font-heading font-bold text-fi-gold">5.040h</div>
+                        <div class="text-gray-400 text-sm">Horas de coach</div>
+                    </div>
+                    <div class="card-hover glass rounded-2xl p-5">
+                        <div class="text-3xl font-heading font-bold text-fi-purple">160</div>
+                        <div class="text-gray-400 text-sm">Alunos analisados</div>
+                    </div>
+                    <div class="card-hover glass rounded-2xl p-5">
+                        <div class="text-3xl font-heading font-bold text-green-400">119</div>
+                        <div class="text-gray-400 text-sm">Melhora acima do esperado</div>
+                    </div>
+                    <div class="card-hover glass rounded-2xl p-5">
+                        <div class="text-3xl font-heading font-bold text-fi-blue">142</div>
+                        <div class="text-gray-400 text-sm">Melhora mediana ou superior</div>
+                    </div>
+                </div>
+                <div class="glass rounded-3xl p-6 max-w-4xl mx-auto mb-12 border border-fi-gold/20">
+                    <p class="text-gray-300 leading-relaxed">
+                        Dos <strong class="text-white">160 alunos</strong> acompanhados, <strong class="text-fi-gold">119 tiveram uma evolução acima do que esperavam</strong>,
+                        <strong class="text-fi-purple">142 apresentaram melhora mediana ou superior</strong> e apenas <strong class="text-fi-blue">18 tiveram evolução limitada a até +100 PDL</strong>.
+                    </p>
+                </div>
+                <div class="glass border-fi-gold/20 rounded-3xl p-8 max-w-2xl mx-auto mb-8"><i data-lucide="quote"
+                        class="w-8 h-8 text-fi-gold/60 mx-auto mb-4"></i>
+                    <p class="text-gray-300 text-lg italic mb-4">"O Fantasy me ensinou a pensar no jogo. Hoje consigo me
+                        adaptar sozinho e subi do Prata ao Esmeralda em 2 meses."</p>
+                    <p class="text-fi-gold font-medium">— Aluno da Fantasy Island</p>
+                </div>
+                <p class="text-gray-400 text-sm">Alunos destaque: <span class="text-white">IN, Kronos, Tatuya, Xunio,
+                        Lamp</span> – futuros destaques do cenário</p>
+            </div>
+        </section>
+
+        <section id="contato" class="px-4 py-24 relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-t from-fi-purple/15 to-transparent"></div>
+            <div class="relative z-10 max-w-3xl mx-auto text-center glass rounded-[2rem] p-8 md:p-12">
+                <h2 class="font-heading text-3xl md:text-5xl font-bold text-white mb-4">Pronto para evoluir no LoL?</h2>
+                <p class="text-gray-300 text-lg mb-8">Crie sua própria jornada competitiva com método, autonomia e
+                    suporte profissional.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <!-- HERO CTA -->
+                    <a href="https://wa.me/+5571991522759?text=Olá, quero saber mais sobre o curso de LoL."
+                        target="_blank" rel="noopener noreferrer" id="cta-btn"
+                        class="glow-btn inline-flex items-center justify-center gap-2 bg-fi-gold text-fi-dark font-bold px-8 py-4 rounded-lg text-lg hover:bg-yellow-400 transition-colors">
+                        <i data-lucide="zap" class="w-5 h-5"></i> Começar agora
+                    </a>
+                    <a href="https://discord.gg/g773hJJnq" target="_blank" rel="noopener noreferrer"
+                        aria-label="Entrar no Discord" title="Discord"
+                        class="btn-icon w-14 h-14 rounded-2xl bg-fi-discord/15 border border-fi-discord/50 flex items-center justify-center text-fi-discord hover:bg-fi-discord hover:text-white">
+                        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path
+                                d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3c-.164.29-.353.682-.484.99a18.27 18.27 0 0 0-8.148 0A10.15 10.15 0 0 0 7.442 3a19.736 19.736 0 0 0-3.76 1.37C1.303 7.91.662 11.36.984 14.76a19.9 19.9 0 0 0 6.142 3.113c.494-.67.934-1.38 1.313-2.123-.721-.271-1.412-.604-2.064-.99.173-.127.342-.26.505-.397 3.984 1.845 8.306 1.845 12.243 0 .166.137.335.27.505.397-.653.386-1.345.72-2.066.99.379.743.82 1.453 1.314 2.123a19.86 19.86 0 0 0 6.142-3.113c.378-3.944-.647-7.363-3.701-10.391ZM8.682 12.705c-1.198 0-2.18-1.1-2.18-2.45 0-1.35.963-2.45 2.18-2.45 1.225 0 2.2 1.11 2.18 2.45 0 1.35-.963 2.45-2.18 2.45Zm6.636 0c-1.198 0-2.18-1.1-2.18-2.45 0-1.35.963-2.45 2.18-2.45 1.225 0 2.2 1.11 2.18 2.45 0 1.35-.955 2.45-2.18 2.45Z" />
+                        </svg>
+                    </a>
+                    <a href="https://wa.me/+5571991522759?text=Olá, quero saber mais sobre o curso de LoL." target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center justify-center gap-2 border border-green-500/60 text-green-400 font-bold px-7 py-4 rounded-2xl text-lg hover:bg-green-500/10 transition-colors w-full sm:w-auto"><i
+                            data-lucide="message-circle" class="w-5 h-5"></i> WhatsApp</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="px-4 py-8 border-t border-gray-800 text-center">
+        <p class="text-gray-500 text-sm">© 2026 Fantasy Island. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
