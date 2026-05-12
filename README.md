@@ -1,33 +1,32 @@
 # Fantasy Island – Landing Page (LoL)
 
-Landing page estática em HTML para divulgação da Fantasy Island (Escola de LoL), com layout responsivo, animações e CTAs para WhatsApp e Discord.
+Static HTML landing page promoting Fantasy Island (LoL School), featuring a responsive layout, animations, and CTAs for WhatsApp and Discord.
 
-## Tecnologias
+## Technologies
 
-- HTML5 (arquivo único)
+- HTML5 (single file)
 - Tailwind CSS via CDN
 - Lucide Icons via CDN
-- Google Fonts (Orbitron e Exo 2) via CDN
+- Google Fonts (Orbitron and Exo 2) via CDN
 
-## Como executar
+## How to run
 
-- Abra o arquivo [index3.html](file:///c:/Users/marco/Desktop/lading%20page/index3.html) no navegador.
+- Open the [index3.html](file:///c:/Users/marco/Desktop/lading%20page/index3.html) file in your browser.
 
-Opcional (recomendado para evitar problemas de CORS em alguns browsers):
+Optional (recommended to avoid CORS issues in some browsers):
 
-- Sirva a pasta com um servidor estático simples e acesse a URL local.
+- Serve the folder with a simple static server and access the local URL.
 
-## Estrutura do projeto
+## Project structure
 
-- [index3.html](file:///c:/Users/marco/Desktop/lading%20page/index3.html): página completa (estilos, seções e scripts).
+- [index3.html](file:///c:/Users/marco/Desktop/lading%20page/index3.html): complete page (styles, sections, and scripts).
 
-## Principais pontos para editar
+## Main editable points
 
-- Título da página: `<title>` no `<head>`.
-- Cores e fontes: `tailwind.config` no `<head>`.
-- Seção de contato: `id="contato"` (âncoras/scroll suave).
+- Page title: `<title>` inside `<head>`.
+- Colors and fonts: `tailwind.config` inside `<head>`.
+- Contact section: `id="contato"` (anchors/smooth scroll).
 
-## Observações
+## Notes
 
-- As dependências são carregadas por CDN. Para uso offline, substitua por arquivos locais ou um processo de build (não incluído neste projeto).
-
+- Dependencies are loaded via CDN. For offline use, replace with local files or a build process (not included in this project).
